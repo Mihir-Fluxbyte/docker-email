@@ -1,5 +1,6 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
+const path = require("path");
 
 const app = express();
 const PORT = 8000;
@@ -9,8 +10,14 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({
     ok: true,
+    routes: {
+      ui: "/ui",
+      api: "/mailapi",
+    },
   });
 });
+
+app.use("/ui", express.static(path.join(__dirname, "public")));
 
 app.post("/mailapi", (req, res) => {
   // Extract email parameters from the request body
@@ -37,5 +44,4 @@ app.post("/mailapi", (req, res) => {
 
 var listener = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log("TEST port node server", listener.address().port);
 });

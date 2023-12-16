@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mail API UI</title>
+</head>
+<body>
+    <h1>Mail API UI</h1>
+    <form id="emailForm">
+        <label for="from">From:</label>
+        <input type="text" id="from" name="from" required><br><br>
+
+        <label for="to">To:</label>
+        <input type="text" id="to" name="to" required><br><br>
+
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+
+        <label for="text">Message:</label><br>
+        <textarea id="text" name="text" required></textarea><br><br>
+
+        <input type="submit" value="Send Email">
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        const form = document.getElementById('emailForm');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            try {
+                const response = await fetch('/mailapi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+                const result = await response.json();
+                responseDiv.innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                responseDiv.innerText = 'Error sending email';
+            }
+        });
+    </script>
+</body>
+</html>
