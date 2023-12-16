@@ -11,8 +11,8 @@ app.get("/", (req, res) => {
   res.json({
     ok: true,
     routes: {
-      ui: "/ui",
-      api: "/mailapi",
+      ui: "mailapi/ui/index.html",
+      api: "mailapi/mailapi",
     },
   });
 });
