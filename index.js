@@ -35,6 +35,7 @@ app.post("/mailapi", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+var listener = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log("TEST port node server", listener.address().port);
 });
